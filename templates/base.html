@@ -1,0 +1,42 @@
+{% load bootstrap4 %}
+
+{# Display django.contrib.messages as Bootstrap alerts #}
+{% bootstrap_messages %}
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Veetas loh</title>
+
+    {% bootstrap_css %}
+    {% bootstrap_javascript jquery='full' %}
+
+  </head>
+
+  <body>
+    {% block body %}
+    {% block header %}
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
+      <a href="/">
+        <img class="navbar-brand" src="https://cdn.leagueoflegends.com/riotbar/prod/1.6.248/images/navigation/icon-game-lol.png?1550171370"/>
+      </a>
+      <ul class="navbar-nav offset-10">
+        <li class="nav-item">
+          <a class="nav-link" href="{% url "accounts:logout" %}">Logout</a>
+        </li>
+      </ul>
+    </nav>
+    {% endblock header %}
+
+    <div class="container-fluid" style="margin-top:80px">
+      <div class="row">
+        <div class="offset-1 col-10">
+          {% block content %}{% endblock content %}
+        </div>
+      </div>
+    </div>
+    {% endblock body %}
+  </body>
+
+</html>
