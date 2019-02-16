@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% load bootstrap4 %}
+
+{% block content %}
+  <form class="form" action="" method="get">
+    {% bootstrap_form form %}
+    {% buttons %}
+      <button class="btn btn-primary" type="submit">Submit</button>
+    {% endbuttons %}
+  </form>
+
+  {% if summoner_position.keys|length == 0 %}
+    No ranked info found
+  {% else %}
+  <p>
+    <div class="media border p-3">
+      <img
+        src="http://ddragon.leagueoflegends.com/cdn/9.2.1/img/profileicon/{{ summoner_profile.profileIconId }}.png"
+        class="mr-3 mt-3 rounded-circle"
+        style="width:170px;"
+      >
+      <div class="media-body">
+        <h4>{{ request.GET.username }}</h4>
+          <table class="table">
+            <thead>
+              {% for header, value in summoner_position.items %}
+              <tr>
+                <th>{{ header }}</th>
+                <th>{{ value }}</th>
+              <tr>
+              {% endfor %}
+            </thead>
+          </table>
+      </div>
+    </div>
+  </p>
+  {% endif %}
+
+  {% if request.GET.username is not None %}
+    {% if summoner_match_history|length == 0 %}
+      No games played.
+    {% else %}
+    <h2>{{ request.GET.username }}'s match history</h2>
+    <table class="table">
+      <thead class="thead-dark">
+        <tr>
+          <th>Champion</th>
+          <th>Queue</th>
+          <th>Time</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for match in summoner_match_history %}
+        <tr>
+          <td>
+            <img src="http://ddragon.leagueoflegends.com/cdn/9.2.1/img/champion/{{ match.champion_id }}.png"/>
+          </td>
+          <td>
+            {{ match.queue }}
+          </td>
+          <td>
+            {{ match.datetime|date:"SHORT_DATE_FORMAT" }}
+            {{ match.datetime|time:"H:i" }}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% endif %}
+  {% endif %}
+
+{% endblock content %}
+
+<!-- Django tmeplate language -->
